@@ -53,6 +53,35 @@
         
         <hr>
 
+        <h3>Claves de API (Acceso Protegido)</h3>
+        <div id="password-protection">
+            <label for="settings-password">Contraseña para editar</label>
+            <div class="input-group">
+                <input type="password" id="settings-password" placeholder="Introduce la contraseña">
+                <button id="unlock-keys-btn">Desbloquear</button>
+            </div>
+        </div>
+
+        <div id="api-keys-wrapper" class="hidden">
+            <div id="openai-key-section" class="api-key-section">
+                <label for="openai-api-key">Tu API Key de OpenAI:</label>
+                <div class="input-group">
+                    <input type="password" id="openai-api-key" placeholder="Pega tu API Key (sk-...) aquí">
+                    <button class="save-api-key-btn" data-provider="openai">Guardar</button>
+                </div>
+                <span id="openai-api-key-status" class="api-key-status"></span>
+            </div>
+
+            <div id="gemini-key-section" class="api-key-section">
+                <label for="gemini-api-key">Tu API Key de Google AI Studio:</label>
+                <div class="input-group">
+                    <input type="password" id="gemini-api-key" placeholder="Pega tu API Key aquí">
+                    <button class="save-api-key-btn" data-provider="gemini">Guardar</button>
+                </div>
+                <span id="gemini-api-key-status" class="api-key-status"></span>
+            </div>
+        </div>
+
         <h3>Efectos de Fondo</h3>
         <div class="settings-section">
              <label for="effect-blur">Desenfoque: <span id="blur-value">0</span>px</label>
@@ -80,24 +109,6 @@
                 <option value="openai">OpenAI</option>
                 <option value="gemini">Google Gemini</option>
             </select>
-        </div>
-
-        <div id="openai-key-section" class="api-key-section">
-            <label for="openai-api-key">Tu API Key de OpenAI:</label>
-            <div class="input-group">
-                <input type="password" id="openai-api-key" placeholder="Pega tu API Key (sk-...) aquí">
-                <button class="save-api-key-btn" data-provider="openai">Guardar</button>
-            </div>
-            <span id="openai-api-key-status" class="api-key-status"></span>
-        </div>
-
-        <div id="gemini-key-section" class="api-key-section hidden">
-            <label for="gemini-api-key">Tu API Key de Google AI Studio:</label>
-            <div class="input-group">
-                <input type="password" id="gemini-api-key" placeholder="Pega tu API Key aquí">
-                <button class="save-api-key-btn" data-provider="gemini">Guardar</button>
-            </div>
-            <span id="gemini-api-key-status" class="api-key-status"></span>
         </div>
 
         <div class="model-selection-section">
@@ -134,7 +145,7 @@
         </div>
     </div>
 
-    <audio id="completion-sound" src="data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaW5nIENTUkFQX1hSU1YyIZFoAfgA/+MkAmwAxgQAAAAEAAAAAAAAAAAAAABp2ABuAAaQPLgAABp2ABuAAaQPLgAAAEDIAAAAAAAAADSAAAAATEwAAB2AAAGnYAG4ABpA8uAAAGnYAG4ABpA8uAAAAAxLAAAAAABIAAAAA4QAABqQAAAGnYAG4ABpA8uAAAGnYAG4ABpA8uAAABBDAAAAAAABIAAAAA4QAABqQAAAGnYAG4ABpA8uAAAGnYAG4ABpA8uAAAACZEAAAAAAAEgAAAADhAAAGpAAAGnYAG4ABpA8uAAAGnYAG4ABpA8uAAAADU0AAAAAAAEgAAAADhAAAGpAAAGnYAG4ABpA8uAAAGnYAG4ABpA8uAAAAENsAAAAAAAQyAAAAAMSAAAKkAAD/+MkA/wAAT7A/AAAAAQAAAAAAAAAAAAAARIBuAAaT//gAAAAAAAAAAAAAAAAAAAAgAAAagAAAAwAADQAAAAYAAHAAAGp2ABuAAaQPLgAABp2ABuAAaQPLgAAAEfYAAAAAAAAQyAAAAAMSAAAKkAAD/4yQEMAD9LLA/AAAAAQAAAAAAAAAAAAAARIBuAAaT//gAAAAAAAAAAAAAAAAAAAAgAAAagAAAAwAADQAAAAYAAHAAAGp2ABuAAaQPLgAABp2ABuAAaQPLgAAAFYEAABAAAAADDIgAAAAxIAAAqQAA"></audio>
+    <audio id="completion-sound" src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA="></audio>
 
     <script src="script.js"></script>
 </body>

@@ -79,7 +79,8 @@ select {
     background-size: 1em;
 }
 
-.api-key-section.hidden {
+.api-key-section.hidden,
+#api-keys-wrapper.hidden {
     display: none;
 }
 
