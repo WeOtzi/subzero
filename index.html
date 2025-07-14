@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transcripbot con Gemini</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="settings-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M19.9999 12.0001C19.9999 13.2844 19.3428 14.4312 18.2575 15.0939L18.2503 15.1321L17.7289 17.7537C17.6744 18.0263 17.5193 18.272 17.2941 18.426L15.4262 19.7282C14.4998 20.3547 13.2872 20.6272 12.0003 20.6272C10.7133 20.6272 9.50072 20.3547 8.57434 19.7282L6.70649 18.426C6.48126 18.272 6.32616 18.0263 6.27163 17.7537L5.74994 15.1321L5.74291 15.0939C4.65719 14.4312 4 13.2844 4 12.0001C4 10.7157 4.65719 9.56893 5.74291 8.9062L5.74994 8.86801L6.27145 6.24641C6.32598 5.97381 6.48108 5.72813 6.70631 5.5741L8.57416 4.27188C9.50054 3.64539 10.7132 3.37289 11.9998 3.37289C13.2868 3.37289 14.4994 3.64539 15.4258 4.27188L17.2936 5.5741C17.5189 5.72813 17.674 5.97381 17.7285 6.24641L18.2501 8.86801L18.2572 8.9062C19.3428 9.56893 19.9999 10.7157 19.9999 12.0001ZM11.9998 8.50008C9.79069 8.50008 7.99988 10.2909 7.99988 12.5001C7.99988 14.7092 9.79069 16.5001 11.9998 16.5001C14.209 16.5001 15.9998 14.7092 15.9998 12.5001C15.9998 10.2909 14.209 8.50008 11.9998 8.50008Z"></path></svg>
+    </div>
+
+    <div id="settings-panel" class="hidden">
+        <h3>Personalizar Fondo</h3>
+
+        <div class="settings-section">
+            <label>Tipo de Fondo</label>
+            <select id="bg-type-selector">
+                <option value="solid">Color Sólido</option>
+                <option value="gradient">Degradado</option>
+                <option value="image">Imagen</option>
+            </select>
+        </div>
+
+        <!-- Solid Color -->
+        <div id="solid-color-controls" class="bg-controls">
+            <label for="solid-color">Color de Fondo</label>
+            <input type="color" id="solid-color" value="#1c1c1e">
+        </div>
+
+        <!-- Gradient -->
+        <div id="gradient-controls" class="bg-controls hidden">
+            <label for="gradient-type">Tipo de Degradado</label>
+            <select id="gradient-type">
+                <option value="linear-gradient">Lineal</option>
+                <option value="radial-gradient">Radial</option>
+            </select>
+            <label for="gradient-color-1">Color 1</label>
+            <input type="color" id="gradient-color-1" value="#434343">
+            <label for="gradient-color-2">Color 2</label>
+            <input type="color" id="gradient-color-2" value="#000000">
+            <label for="gradient-angle">Ángulo (Lineal)</label>
+            <input type="range" id="gradient-angle" min="0" max="360" value="135">
+        </div>
+
+        <!-- Image -->
+        <div id="image-controls" class="bg-controls hidden">
+            <label for="image-upload">Subir Imagen</label>
+            <input type="file" id="image-upload" accept="image/*">
+            <p class="info-text">Las imágenes grandes no se guardarán entre sesiones.</p>
+        </div>
+        
+        <hr>
+
+        <h3>Efectos de Fondo</h3>
+        <div class="settings-section">
+             <label for="effect-blur">Desenfoque: <span id="blur-value">0</span>px</label>
+            <input type="range" id="effect-blur" min="0" max="20" value="0">
+            
+            <label for="effect-brightness">Brillo: <span id="brightness-value">100</span>%</label>
+            <input type="range" id="effect-brightness" min="0" max="200" value="100">
+
+            <label for="effect-contrast">Contraste: <span id="contrast-value">100</span>%</label>
+            <input type="range" id="effect-contrast" min="0" max="200" value="100">
+
+            <label for="effect-saturate">Saturación: <span id="saturate-value">100</span>%</label>
+            <input type="range" id="effect-saturate" min="0" max="200" value="100">
+        </div>
+
+    </div>
+
+    <div class="container">
+        <h1>Transcripbot 字幕</h1>
+        <p>Carga un archivo de audio (MP3) para generar subtítulos con IA.</p>
+        
+        <div class="provider-section">
+            <label for="provider-selector">Proveedor de IA</label>
+            <select id="provider-selector">
+                <option value="openai">OpenAI</option>
+                <option value="gemini">Google Gemini</option>
+            </select>
+        </div>
+
+        <div id="openai-key-section" class="api-key-section">
+            <label for="openai-api-key">Tu API Key de OpenAI:</label>
+            <div class="input-group">
+                <input type="password" id="openai-api-key" placeholder="Pega tu API Key (sk-...) aquí">
+                <button class="save-api-key-btn" data-provider="openai">Guardar</button>
+            </div>
+            <span id="openai-api-key-status" class="api-key-status"></span>
+        </div>
+
+        <div id="gemini-key-section" class="api-key-section hidden">
+            <label for="gemini-api-key">Tu API Key de Google AI Studio:</label>
+            <div class="input-group">
+                <input type="password" id="gemini-api-key" placeholder="Pega tu API Key aquí">
+                <button class="save-api-key-btn" data-provider="gemini">Guardar</button>
+            </div>
+            <span id="gemini-api-key-status" class="api-key-status"></span>
+        </div>
+
+        <div class="model-selection-section">
+            <label for="model-selector">Modelo de Transcripción</label>
+            <select id="model-selector">
+                <!-- Los modelos se cargarán dinámicamente con JS -->
+            </select>
+        </div>
+
+        <div class="upload-section">
+            <label for="audio-file">Sube tu archivo de audio:</label>
+            <input type="file" id="audio-file" accept="audio/mp3">
+        </div>
+
+        <button id="transcribe-btn">Generar Subtítulos</button>
+
+        <div class="status-section">
+            <h2>Estado</h2>
+            <p id="status-message">Esperando para empezar...</p>
+        </div>
+
+        <div class="transcription-section">
+            <div class="transcription-header">
+                <h2>Transcripción</h2>
+                <button id="download-btn" class="hidden" title="Descargar como .txt">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M13 10H18L12 16L6 10H11V3H13V10ZM4 18H20V20H4V18Z"></path></svg>
+                </button>
+            </div>
+            <pre id="transcription-output"></pre>
+        </div>
+
+        <div id="transcription-stats" class="hidden">
+            <!-- Los datos se insertarán aquí desde JS -->
+        </div>
+    </div>
+
+    <audio id="completion-sound" src="data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaW5nIENTUkFQX1hSU1YyIZFoAfgA/+MkAmwAxgQAAAAEAAAAAAAAAAAAAABp2ABuAAaQPLgAABp2ABuAAaQPLgAAAEDIAAAAAAAAADSAAAAATEwAAB2AAAGnYAG4ABpA8uAAAGnYAG4ABpA8uAAAAAxLAAAAAABIAAAAA4QAABqQAAAGnYAG4ABpA8uAAAGnYAG4ABpA8uAAABBDAAAAAAABIAAAAA4QAABqQAAAGnYAG4ABpA8uAAAGnYAG4ABpA8uAAAACZEAAAAAAAEgAAAADhAAAGpAAAGnYAG4ABpA8uAAAGnYAG4ABpA8uAAAADU0AAAAAAAEgAAAADhAAAGpAAAGnYAG4ABpA8uAAAGnYAG4ABpA8uAAAAENsAAAAAAAQyAAAAAMSAAAKkAAD/+MkA/wAAT7A/AAAAAQAAAAAAAAAAAAAARIBuAAaT//gAAAAAAAAAAAAAAAAAAAAgAAAagAAAAwAADQAAAAYAAHAAAGp2ABuAAaQPLgAABp2ABuAAaQPLgAAAEfYAAAAAAAAQyAAAAAMSAAAKkAAD/4yQEMAD9LLA/AAAAAQAAAAAAAAAAAAAARIBuAAaT//gAAAAAAAAAAAAAAAAAAAAgAAAagAAAAwAADQAAAAYAAHAAAGp2ABuAAaQPLgAABp2ABuAAaQPLgAAAFYEAABAAAAADDIgAAAAxIAAAqQAA"></audio>
+
+    <script src="script.js"></script>
+</body>
+</html> 
